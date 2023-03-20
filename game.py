@@ -9,7 +9,10 @@ DIFFICULTY = 1
 ITEMS  = {
     'c' : 5,
     't' : 5,
-    'f' : 4
+    'f' : 4,
+    'd' : 2,
+    'P' : 1,
+    'T' : 1
 }
 
 
@@ -31,11 +34,10 @@ def generateLevel():
     return level
     
 def printLevel(level):
-    print('   ', ' = ' * 2 * len(level))
-    for row in level:
-        print(f"  {' -  ' * len(level)}   ")
+    for i, row in enumerate(level):
+        print(f"  {' -  ' * len(level)}   ") if i != 0 else print(f"  {' =  ' * len(level)}   ")
         print(f"|| {' | '.join(row)} ||")
-    print('   ', ' = ' * 2 * len(level))
+    print(' ', ' =  ' * len(level))
 
 
 
