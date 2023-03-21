@@ -84,13 +84,14 @@ def main():
                 if playerMoveTo(level, player_x, player_y - 1):
                     player_y -= 1
             case 'a':
-                playerMoveTo(level, player_x - 1, player_y)
-                player_x -= 1
+                if playerMoveTo(level, player_x - 1, player_y):
+                    player_x -= 1
             case 's':
-                playerMoveTo(level, player_x, player_y + 1)
-                player_y += 1
+                if playerMoveTo(level, player_x, player_y + 1):
+                    player_y += 1
             case 'd':
-                playerMoveTo(level, player_x + 1, player_y)
+                if playerMoveTo(level, player_x + 1, player_y):
+                    player_x += 1
             case _:
                 player_move = input('please enter a valid move')
 
