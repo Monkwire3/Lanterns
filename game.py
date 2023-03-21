@@ -37,17 +37,23 @@ def printLevel(level, p_x, p_y, l_d):
     print(' ', ' =  ' * len(level))
 
 
-def playerMoveTo(level, x, y):
+def playerMoveTo(level, x, y, stats):
     if 0 <= x < len(level) and 0 <= y < len(level):
         if level[y][x] == '.':
             level[player_y][player_x] = '.'
             level[y][x] = 'P'
+            return True
+        elif level[y][x] == 'c':
+            level[player_y][player_x] = '.'
+            level[y][x] = 'P'
+            stats['coins'] += 1
             return True
         else:
             return False
         
     else:
         return False
+
 
 def locateCharacter(level, c):
     for i in range(len(level)):
@@ -67,12 +73,18 @@ def main():
     global player_x
     global player_y
 
+    PLAYER_STATS = {
+        'coins' : 0,
+        'attack': 1,
+        'def'   : 1,
+        'health': 5
+    }
+
 
 
     ITEMS  = {
         'c' : 5,
         't' : 5,
-        'f' : 4,
         'd' : 2,
         'T' : 1,
         'P' : 1
@@ -85,19 +97,20 @@ def main():
 
     while True:
         printLevel(level, player_x, player_y, LIGHT_DECAY)
+        print(PLAYER_STATS)
         player_move = input('enter a move: ')
         match player_move:
             case 'w':
-                if playerMoveTo(level, player_x, player_y - 1):
+                if playerMoveTo(level, player_x, player_y - 1, PLAYER_STATS):
                     player_y -= 1
             case 'a':
-                if playerMoveTo(level, player_x - 1, player_y):
+                if playerMoveTo(level, player_x - 1, player_y, PLAYER_STATS):
                     player_x -= 1
             case 's':
-                if playerMoveTo(level, player_x, player_y + 1):
+                if playerMoveTo(level, player_x, player_y + 1, PLAYER_STATS):
                     player_y += 1
             case 'd':
-                if playerMoveTo(level, player_x + 1, player_y):
+                if playerMoveTo(level, player_x + 1, player_y, PLAYER_STATS):
                     player_x += 1
             case _:
                 player_move = input('please enter a valid move')
