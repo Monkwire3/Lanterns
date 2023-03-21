@@ -24,10 +24,16 @@ def generateLevel(n, items):
     return level
 
     
-def printLevel(level):
+def printLevel(level, p_x, p_y, l_d):
     for i, row in enumerate(level):
         print(f"  {' -  ' * len(level)}   ") if i != 0 else print(f"  {' =  ' * len(level)}   ")
-        print(f"|| {' | '.join(row)} ||")
+        player_view = []
+        for j, char in enumerate(row):
+            if abs(i - p_y) <= l_d and abs(j - p_x) <= l_d:
+                player_view.append(char)
+            else:
+                player_view.append(' ')
+        print(f"|| {' | '.join(player_view)} ||")
     print(' ', ' =  ' * len(level))
 
 
@@ -54,8 +60,9 @@ def locateCharacter(level, c):
 def main():
     print('Welcome to candle game')
     CELLS = 10
-    LIGHT_DECAY = 5
+    LIGHT_DECAY = 1
     DIFFICULTY = 1
+    FUEL = 9
 
     global player_x
     global player_y
@@ -77,7 +84,7 @@ def main():
     player_y, player_x = locateCharacter(level, 'P')
 
     while True:
-        printLevel(level)
+        printLevel(level, player_x, player_y, LIGHT_DECAY)
         player_move = input('enter a move: ')
         match player_move:
             case 'w':
