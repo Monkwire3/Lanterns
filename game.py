@@ -1,9 +1,4 @@
 import random
-import math
-
-
-
-
 
 def generateLevel(n, items):
     level = [['.'] * n for _ in range(n)]
@@ -68,7 +63,6 @@ def main():
     CELLS = 10
     LIGHT_DECAY = 1
     DIFFICULTY = 1
-    FUEL = 9
 
     global player_x
     global player_y
@@ -77,19 +71,17 @@ def main():
         'coins' : 0,
         'attack': 1,
         'def'   : 1,
-        'health': 5
+        'health': 5,
+        'level' : 0
     }
-
 
 
     ITEMS  = {
         'c' : 5,
         't' : 5,
-        'd' : 2,
-        'T' : 1,
+        '+' : 1,
         'P' : 1
     }
-
 
 
     level = generateLevel(CELLS, ITEMS)
@@ -101,22 +93,37 @@ def main():
         player_move = input('enter a move: ')
         match player_move:
             case 'w':
-                if playerMoveTo(level, player_x, player_y - 1, PLAYER_STATS):
+                if level[player_y - 1][player_x] == '+':
+                    level = generateLevel(CELLS, ITEMS)
+                    player_y, player_x = locateCharacter(level, 'P')
+                    PLAYER_STATS['level'] += 1
+                elif playerMoveTo(level, player_x, player_y - 1, PLAYER_STATS):
                     player_y -= 1
             case 'a':
-                if playerMoveTo(level, player_x - 1, player_y, PLAYER_STATS):
+                if level[player_y][player_x - 1] == '+':
+                    level = generateLevel(CELLS, ITEMS)
+                    player_y, player_x = locateCharacter(level, 'P')
+                    PLAYER_STATS['level'] += 1
+                elif playerMoveTo(level, player_x - 1, player_y, PLAYER_STATS):
                     player_x -= 1
             case 's':
-                if playerMoveTo(level, player_x, player_y + 1, PLAYER_STATS):
+                if level[player_y + 1][player_x] == '+':
+                    level = generateLevel(CELLS, ITEMS)
+                    player_y, player_x = locateCharacter(level, 'P')
+                    PLAYER_STATS['level'] += 1
+                elif playerMoveTo(level, player_x, player_y + 1, PLAYER_STATS):
                     player_y += 1
             case 'd':
-                if playerMoveTo(level, player_x + 1, player_y, PLAYER_STATS):
+                if level[player_y][player_x + 1] == '+':
+                    player_y, player_x = locateCharacter(level, 'P')
+                    level = generateLevel(CELLS, ITEMS)
+                    PLAYER_STATS['level'] += 1
+
                     player_x += 1
             case _:
                 player_move = input('please enter a valid move')
 
 
 main()
-
 
 
